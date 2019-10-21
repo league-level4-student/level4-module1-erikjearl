@@ -87,13 +87,13 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		//   of the game. The smaller the number, the faster it goes.
 		switch(choice) {
 		case "Beginner":
-			timer.setDelay(60);
+			timer.setDelay(150);
 			break;
 		case "Moderate":
-			timer.setDelay(30);
+			timer.setDelay(100);
 			break;
 		case "Expert":
-			timer.setDelay(15);
+			timer.setDelay(50);
 			break;
 		}
 		//3. start the timer
@@ -119,22 +119,21 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		// direction accordingly
 		
 		// if the space key is pressed, call the snake's feed method
-		
 		switch(e.getKeyCode()) {
-		case 38:
+		case 39:
 			snake.setDirection(Direction.RIGHT);
 			break;
 		case 37:
 			snake.setDirection(Direction.LEFT);
 			break;
-		case 39:
+		case 38:
 			snake.setDirection(Direction.UP);
 			break;
 		case 40:
 			snake.setDirection(Direction.DOWN);
 			break;
 		}
-		
+
 	}
 
 	private void setFoodLocation() {
@@ -143,8 +142,11 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		Location loc = new Location(r.nextInt(WIDTH),r.nextInt(HEIGHT));
 		//2. set the foodLocation variable equal to the Location object you just created.
 		//   use the snake's isLocationOnSnake method to make sure you don't put the food on the snake
-		foodLocation = loc;
-		snake.isLocationOnSnake(loc);
+		if(!snake.isLocationOnSnake(loc)) {
+			foodLocation = loc;
+		}else {
+			setFoodLocation();
+		}
 	}
 
 	private void gameOver() {
@@ -158,7 +160,7 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		//4. if they want to play again
 		//   reset the snake and the food and start the timer
 		//   else, exit the game
-		if(playAgain == "Yes") {
+		if(playAgain.equals("Yes")) {
 			Random r = new Random();
 			Location loc = new Location(r.nextInt(WIDTH),r.nextInt(HEIGHT));
 			snake.reset(loc);
@@ -185,7 +187,7 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		}
 		//3. if the location of the head is equal to the location of the food,
 		// 	 feed the snake and set the food location
-		if(snake.getHeadLocation() == foodLocation) {
+		if(snake.getHeadLocation().equals(foodLocation)) {
 			snake.feed();
 			setFoodLocation();
 		}
